@@ -69,11 +69,13 @@ Set via environment variables:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
+| `GH_INTERCEPT_CACHE_DIR` | `/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir` | Root directory for cached repo clones |
 | `CLAUDE_PLUGIN_RETENTION_DAYS` | `30` | Days before unused repos are pruned |
 | `CLAUDE_PLUGIN_MAX_FILE_SIZE` | `200k` | Max blob size for shallow clones (git `--filter=blob:limit=`) |
 
 Example:
 ```bash
+export GH_INTERCEPT_CACHE_DIR=/var/tmp/my-custom-cache
 export CLAUDE_PLUGIN_RETENTION_DAYS=7
 export CLAUDE_PLUGIN_MAX_FILE_SIZE=500k
 ```

@@ -8,14 +8,14 @@ GH_CACHE="${SCRIPT_DIR}/../../../skills/gh-intercept/scripts/gh-cache.sh"
 
 setup() {
     TEST_CACHE="$(mktemp -d)"
-    export CACHE_BASE="$TEST_CACHE"
+    export GH_INTERCEPT_CACHE_DIR="$TEST_CACHE"
     export TODAY="2026-04-15"
-    export TODAY_DIR="${CACHE_BASE}/${TODAY}"
+    export TODAY_DIR="${GH_INTERCEPT_CACHE_DIR}/${TODAY}"
 
     GH_CACHE_SOURCED=1 source "$GH_CACHE"
     # Override globals set during source
-    CACHE_BASE="$TEST_CACHE"
-    TODAY_DIR="${CACHE_BASE}/${TODAY}"
+    GH_INTERCEPT_CACHE_DIR="$TEST_CACHE"
+    TODAY_DIR="${GH_INTERCEPT_CACHE_DIR}/${TODAY}"
 }
 
 teardown() {
