@@ -1,6 +1,6 @@
 {
   "name": "gh-intercept",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Intercept GitHub remote file access (WebFetch, gh api, gh repo view) and serve from a local shallow-clone cache. Repos are cloned in the background on first access.",
   "author": {
     "name": "Todd Jacobsen"

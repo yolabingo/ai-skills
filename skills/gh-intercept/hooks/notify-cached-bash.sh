@@ -31,14 +31,20 @@ else
     # curl, wget, git clone — extract first git-host URL from command
     if [[ "$COMMAND" =~ (https?://raw\.githubusercontent\.com/[^[:space:]]+) ]]; then
         URL="${BASH_REMATCH[1]}"
-    elif [[ "$COMMAND" =~ (https?://(github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)/[^[:space:]]+) ]]; then
+    elif [[ "$COMMAND" =~ (https?://(api\.github\.com|github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)/[^[:space:]]+) ]]; then
         URL="${BASH_REMATCH[1]}"
     fi
 
     [[ -z "$URL" ]] && exit 0
 
-    # Parse owner/repo/file from URL
-    if [[ "$URL" =~ raw\.githubusercontent\.com/([^/?#]+)/([^/?#]+)/([^/?#]+)/(.+) ]]; then
+    # Parse owner/repo/file from URL (api.github.com must come before generic github.com)
+    if [[ "$URL" =~ api\.github\.com/repos/([^/?#]+)/([^/?#]+) ]]; then
+        HOST="github.com"
+        OWNER="${BASH_REMATCH[1]}"; REPO="${BASH_REMATCH[2]}"
+        if [[ "$URL" =~ /contents/([^?#]+) ]]; then
+            FILE_PATH="${BASH_REMATCH[1]}"
+        fi
+    elif [[ "$URL" =~ raw\.githubusercontent\.com/([^/?#]+)/([^/?#]+)/([^/?#]+)/(.+) ]]; then
         HOST="github.com"
         OWNER="${BASH_REMATCH[1]}"; REPO="${BASH_REMATCH[2]}"; FILE_PATH="${BASH_REMATCH[4]}"
     elif [[ "$URL" =~ ($SUPPORTED_HOSTS)/([^/?#]+)/([^/?#]+)(/-)*/blob/([^/?#]+)/(.+) ]]; then

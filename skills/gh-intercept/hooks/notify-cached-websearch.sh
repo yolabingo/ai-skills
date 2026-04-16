@@ -12,12 +12,15 @@ QUERY=$(echo "$INPUT" | jq -r '.tool_input.query // empty' 2>/dev/null)
 [[ -z "$QUERY" ]] && exit 0
 
 # Only act when query mentions a supported host
-echo "$QUERY" | grep -qiE "(github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)" || exit 0
+echo "$QUERY" | grep -qiE "(api\.github\.com|github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)" || exit 0
 
 OWNER="" REPO="" HOST=""
 
 # Extract host/owner/repo from query
-if [[ "$QUERY" =~ (github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
+if [[ "$QUERY" =~ api\.github\.com/repos/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
+    HOST="github.com"
+    OWNER="${BASH_REMATCH[1]}"; REPO="${BASH_REMATCH[2]}"
+elif [[ "$QUERY" =~ (github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
     HOST="${BASH_REMATCH[1]}"
     OWNER="${BASH_REMATCH[2]}"; REPO="${BASH_REMATCH[3]}"
 fi

@@ -96,6 +96,21 @@ ok "curl gitlab.com — cached repo" \
     "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"curl https://gitlab.com/myorg/myrepo/some/path"}}')" \
     "myorg/myrepo"
 
+ok "curl api.github.com contents — cached file" \
+    "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"curl https://api.github.com/repos/kapicorp/kapitan/contents/kapitan/inputs/jsonnet.py"}}')" \
+    "kapitan/inputs/jsonnet.py"
+
+ok "curl api.github.com contents — cached repo" \
+    "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"curl -s https://api.github.com/repos/kapicorp/kapitan/contents/"}}')" \
+    "kapicorp/kapitan"
+
+ok "curl -s api.github.com repos — cached repo" \
+    "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"curl -s https://api.github.com/repos/kapicorp/kapitan"}}')" \
+    "kapicorp/kapitan"
+
+empty "curl api.github.com uncached — no note" \
+    "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"curl -s https://api.github.com/repos/other/notcached/contents/"}}')"
+
 empty "uncached repo — no note" \
     "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"curl https://raw.githubusercontent.com/other/notcached/main/file.py"}}')"
 

@@ -61,6 +61,13 @@ parse_repo_ref() {
         BRANCH="${BASH_REMATCH[4]}"; FILE_PATH="${BASH_REMATCH[5]}"
         return 0
     fi
+    # api.github.com/repos/owner/repo[/contents/path]
+    if [[ "$input" =~ api\.github\.com/repos/([^/?#]+)/([^/?#]+)(/contents/([^?#]+))? ]]; then
+        HOST="github.com"
+        OWNER="${BASH_REMATCH[1]}"; REPO="${BASH_REMATCH[2]}"
+        FILE_PATH="${BASH_REMATCH[4]:-}"
+        return 0
+    fi
     # {host}/owner/repo
     if [[ "$input" =~ ($SUPPORTED_HOSTS)/([^/?#]+)/([^/?#.]+)(\.git)?([/?#].*)?$ ]]; then
         HOST="${BASH_REMATCH[1]}"

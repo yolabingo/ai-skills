@@ -24,7 +24,7 @@ else
     # curl, wget, git clone — extract first git-host URL from command
     if [[ "$COMMAND" =~ (https?://raw\.githubusercontent\.com/[^[:space:]]+) ]]; then
         CACHE_REF="${BASH_REMATCH[1]}"
-    elif [[ "$COMMAND" =~ (https?://(github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)/[^[:space:]]+) ]]; then
+    elif [[ "$COMMAND" =~ (https?://(api\.github\.com|github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)/[^[:space:]]+) ]]; then
         CACHE_REF="${BASH_REMATCH[1]}"
     fi
 fi

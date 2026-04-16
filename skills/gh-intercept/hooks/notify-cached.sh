@@ -11,12 +11,18 @@ INPUT=$(cat)
 URL=$(echo "$INPUT" | jq -r '.tool_input.url // empty' 2>/dev/null)
 
 [[ -z "$URL" ]] && exit 0
-echo "$URL" | grep -qE "(${SUPPORTED_HOSTS}|raw\.githubusercontent\.com)" || exit 0
+echo "$URL" | grep -qE "(api\.github\.com|${SUPPORTED_HOSTS}|raw\.githubusercontent\.com)" || exit 0
 
 # Parse owner/repo/file from URL
 HOST="" OWNER="" REPO="" FILE_PATH=""
 
-if [[ "$URL" =~ raw\.githubusercontent\.com/([^/?#]+)/([^/?#]+)/([^/?#]+)/(.+) ]]; then
+if [[ "$URL" =~ api\.github\.com/repos/([^/?#]+)/([^/?#]+) ]]; then
+    HOST="github.com"
+    OWNER="${BASH_REMATCH[1]}"; REPO="${BASH_REMATCH[2]}"
+    if [[ "$URL" =~ /contents/([^?#]+) ]]; then
+        FILE_PATH="${BASH_REMATCH[1]}"
+    fi
+elif [[ "$URL" =~ raw\.githubusercontent\.com/([^/?#]+)/([^/?#]+)/([^/?#]+)/(.+) ]]; then
     HOST="github.com"
     OWNER="${BASH_REMATCH[1]}"; REPO="${BASH_REMATCH[2]}"; FILE_PATH="${BASH_REMATCH[4]}"
 elif [[ "$URL" =~ ($SUPPORTED_HOSTS)/([^/?#]+)/([^/?#]+)(/-)*/blob/([^/?#]+)/(.+) ]]; then
