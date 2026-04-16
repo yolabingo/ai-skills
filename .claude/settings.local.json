@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:developers.openai.com)",
+      "Bash(gh search *)",
+      "Bash(npm search *)",
+      "Bash(npm pack *)",
+      "Bash(npm view *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d.get\\(k\\) for k in ['bin','main','scripts','keywords']}, indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d.get\\(k\\) for k in ['bin','main','scripts','keywords','files']}, indent=2\\)\\)\")",
+      "Bash(gh repo *)",
+      "Bash(claude skills *)",
+      "Bash(claude plugin *)",
+      "Bash(claude plugins *)",
+      "Skill(paul:apply)",
+      "Skill(paul:unify)",
+      "Skill(paul:plan)",
+      "Bash(ls /Users/toddj/github/ai-skills/.paul/phases/01-repository-foundation/HANDOFF*.md)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}

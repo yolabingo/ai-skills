@@ -1,0 +1,25 @@
+{
+  "name": "ai-skills",
+  "version": "0.1.0",
+  "description": "Curated AI coding skills for Claude Code, Codex, and other assistants",
+  "license": "Apache-2.0",
+  "bin": {
+    "ai-skills": "./cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toddj/ai-skills"
+  },
+  "keywords": [
+    "claude-code",
+    "codex",
+    "ai-skills",
+    "plugin",
+    "marketplace"
+  ],
+  "files": [
+    "skills/",
+    ".claude-plugin/",
+    "cli.js"
+  ]
+}
