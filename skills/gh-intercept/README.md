@@ -2,12 +2,12 @@
 
 Intercept remote Git host file access and serve from a local shallow-clone cache. Repos are cloned in the background on first access — subsequent reads use local files instead of HTTP.
 
-## Supported platforms
+## Install
 
-- **GitHub** (github.com, raw.githubusercontent.com)
-- **GitLab** (gitlab.com)
-- **Bitbucket** (bitbucket.org)
-- **Codeberg** (codeberg.org)
+```bash
+claude plugin marketplace add yolabingo/ai-skills
+claude plugin install gh-intercept
+```
 
 ## What it does
 
@@ -19,12 +19,12 @@ When you fetch a URL from any supported Git host (or run `gh api`/`gh repo view`
 
 All hooks are non-blocking. They never prevent tool execution — just provide context and trigger side effects.
 
-## Install
+## Supported platforms
 
-```bash
-claude plugin marketplace add yolabingo/ai-skills
-claude plugin install gh-intercept
-```
+- **GitHub** (github.com, raw.githubusercontent.com)
+- **GitLab** (gitlab.com)
+- **Bitbucket** (bitbucket.org)
+- **Codeberg** (codeberg.org)
 
 ## How it works
 
