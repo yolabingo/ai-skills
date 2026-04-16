@@ -5,38 +5,38 @@
 See: .paul/PROJECT.md (updated 2026-04-15)
 
 **Core value:** Developers can discover, install, and use curated AI coding skills across multiple AI assistants from a single source.
-**Current focus:** Phase 3 — Cross-Platform Config
+**Current focus:** Milestone v0.1 complete
 
 ## Current Position
 
-Milestone: v0.1 Initial Release
-Phase: 3 of 4 (Cross-Platform Config)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-04-15 — Phase 2 complete, transitioned to Phase 3
+Milestone: v0.1 Initial Release — Complete
+Phase: 4 of 4 (all complete)
+Plan: All plans complete
+Status: Milestone complete
+Last activity: 2026-04-15 — Phase 4 complete, milestone v0.1 done
 
 Progress:
-- Milestone: [█████░░░░░] 50%
+- Milestone: [██████████] 100%
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ○        ○        ○     [Ready for next PLAN]
+  ✓        ✓        ✓     [Milestone complete]
 ```
 
 ## Accumulated Context
 
 ### Decisions
 - Flat repo structure (no monorepo tooling) — skills are markdown
-- Dual distribution: Claude marketplace (primary) + npx CLI (convenience)
-- Cross-platform via `.claude-plugin/` and `.codex-plugin/` config dirs
+- Claude marketplace is sole distribution channel (npx dropped, Codex has no plugin system)
 - Apache-2.0 license
 - SKILL.md paths use ${CLAUDE_PLUGIN_ROOT} for portability
 
 ### Deferred Issues
-- Marketplace install test (02-02) — requires push to GitHub first
+- Marketplace install test — requires push to GitHub
+- Codex support — revisit if/when Codex adds plugin system
 
 ### Blockers/Concerns
 None.
@@ -44,8 +44,8 @@ None.
 ## Session Continuity
 
 Last session: 2026-04-15
-Stopped at: Phase 2 complete, ready to plan Phase 3
-Next action: /paul:plan for Phase 3
+Stopped at: Milestone v0.1 complete
+Next action: Push to GitHub, test marketplace install
 Resume file: .paul/ROADMAP.md
 
 ---

@@ -1,10 +1,10 @@
 # ai-skills
 
-Curated AI coding skills for Claude Code, Codex, and other assistants.
+Curated AI coding skills for Claude Code.
 
 ## What is this?
 
-A public collection of reusable AI skills distributed as a Claude Code plugin marketplace. Each skill is a markdown-based prompt that enhances your AI coding assistant with specialized capabilities.
+A public collection of reusable AI skills distributed as a Claude Code plugin marketplace. Each skill is a markdown-based plugin that enhances Claude Code with specialized capabilities.
 
 ## Install
 

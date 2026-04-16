@@ -7,8 +7,8 @@ Build a public repository of cross-platform AI coding skills, starting with mark
 ## Current Milestone
 
 **v0.1 Initial Release** (v0.1.0)
-Status: In progress
-Phases: 2 of 4 complete
+Status: Complete
+Phases: 4 of 4 complete (Phase 3 skipped — Codex has no plugin system)
 
 ## Phases
 
@@ -16,8 +16,8 @@ Phases: 2 of 4 complete
 |-------|------|-------|--------|-----------|
 | 1 | Repository Foundation | 2 | Complete | 2026-04-15 |
 | 2 | First Skills | 1 | Complete | 2026-04-15 |
-| 3 | Cross-Platform Config | 1 | Not started | - |
-| 4 | Contribution Workflow | 1 | Not started | - |
+| 3 | Cross-Platform Config | 0 | Skipped | 2026-04-15 |
+| 4 | Contribution Workflow | 1 | Complete | 2026-04-15 |
 
 ## Phase Details
 

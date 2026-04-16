@@ -23,8 +23,8 @@ Developers can discover, install, and use curated AI coding skills across multip
 
 - Curated collection of AI coding skills (Claude Code + Codex compatible)
 - Plugin marketplace integration (discoverable via `claude plugin marketplace add`)
-- npx CLI for quick install/list/search
-- Cross-platform skill format (Claude + Codex configs)
+- ~~npx CLI for quick install/list/search~~ — marketplace distribution sufficient
+- ~~Cross-platform skill format (Claude + Codex configs)~~ — Codex has no plugin system; Claude-only for now
 
 ### Validated (Shipped)
 None yet.
@@ -61,7 +61,7 @@ None yet.
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
 | Skills installable via Claude marketplace | Working | - | Not started |
-| Cross-platform compatibility (Claude + Codex) | Same skill works in both | - | Not started |
+| Cross-platform compatibility (Claude + Codex) | N/A — Codex has no plugin system | - | Deferred |
 | Contribution docs | Clear enough for community PRs | - | Not started |
 
 ## Tech Stack / Tools
