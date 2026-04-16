@@ -7,11 +7,11 @@
   "plugins": [
     {
       "name": "gh-intercept",
-      "description": "Shallow-clone GitHub repos in the background whenever a GitHub URL is fetched, then serve subsequent searches from the local cache.",
-      "version": "1.0.0",
+      "description": "Shallow-clone Git repos (GitHub, GitLab, Bitbucket, Codeberg) in the background whenever a remote URL is fetched, then serve subsequent searches from the local cache.",
+      "version": "1.1.0",
       "source": "./skills/gh-intercept",
       "category": "development",
-      "keywords": ["github", "cache", "search", "clone"]
+      "keywords": ["github", "gitlab", "bitbucket", "codeberg", "cache", "search", "clone"]
     }
   ]
 }

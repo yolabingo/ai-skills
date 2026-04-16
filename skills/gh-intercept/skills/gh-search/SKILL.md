@@ -1,11 +1,11 @@
 ---
 name: gh-search
-description: Inspect and search remote GitHub repositories locally using a shallow-cloned cache. Before using gh api, gh repo view, or WebFetch to read remote files, check for a local clone at /var/tmp/claude/gh-repo-cache/ and use Grep/Read/Glob tools on it instead.
+description: Inspect and search remote Git repositories locally using a shallow-cloned cache. Supports GitHub, GitLab, Bitbucket, and Codeberg. Before using gh api, gh repo view, or WebFetch to read remote files, check for a local clone at /var/tmp/claude/gh-repo-cache/ and use Grep/Read/Glob tools on it instead.
 ---
 
 # gh-search
 
-Inspect and search remote GitHub repos locally. Repos are automatically shallow-cloned in the background whenever a GitHub URL is fetched or a `gh api`/`gh repo view` command targets a repo. This skill handles explicit searches, file inspection, and cache management.
+Inspect and search remote Git repos locally. Supports GitHub, GitLab, Bitbucket, and Codeberg. Repos are automatically shallow-cloned in the background whenever a supported URL is fetched or a `gh api`/`gh repo view` command targets a repo. This skill handles explicit searches, file inspection, and cache management.
 
 ## Always check local cache first
 
@@ -20,10 +20,12 @@ If cached, use `Grep`, `Read`, and `Glob` tools directly on local path — faste
 ## Ensure a repo is cloned (sync)
 
 ```bash
-# From URL
+# From URL (any supported host)
 bash "${CLAUDE_PLUGIN_ROOT}/scripts/gh-cache.sh" https://github.com/owner/repo
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/gh-cache.sh" https://gitlab.com/owner/repo
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/gh-cache.sh" https://bitbucket.org/owner/repo
 
-# From owner/repo
+# From owner/repo (defaults to GitHub)
 bash "${CLAUDE_PLUGIN_ROOT}/scripts/gh-cache.sh" owner/repo
 
 # Specific branch
@@ -55,13 +57,13 @@ Benefits over `gh api`:
 ## Search a repo locally
 
 ```bash
-rg "pattern" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/owner__repo/
+rg "pattern" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/github__owner__repo/
 
 # File-only list
-rg -l "pattern" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/owner__repo/
+rg -l "pattern" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/github__owner__repo/
 
 # Type filter
-rg --type java "ClassName" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/owner__repo/
+rg --type java "ClassName" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/gitlab__owner__repo/
 ```
 
 ## Cache management
@@ -81,19 +83,19 @@ Repos not accessed for more than one month are pruned automatically after each s
 ```
 /var/tmp/claude/gh-repo-cache/
   2026-04-15/          <- last-used date (moved here on access)
-    dotcms__core/
-    owner__repo/
+    github__dotcms__core/
+    gitlab__owner__repo/
   2026-03-10/          <- older entries, will be pruned after 1 month
-    stale__repo/
+    bitbucket__owner__repo/
 ```
 
 ## Slug format
 
-Owner and repo are joined with `__`: `dotcms/core` -> `dotcms__core`
+Host, owner, and repo joined with `__`: `github.com/dotcms/core` -> `github__dotcms__core`, `gitlab.com/org/project` -> `gitlab__org__project`
 
 ## How interception works
 
-**WebFetch** — PostToolUse hook fires on any GitHub URL, starts `git clone --depth 1` in background. PreToolUse hook checks cache and suggests local path.
+**WebFetch** — PostToolUse hook fires on any supported Git host URL (GitHub, GitLab, Bitbucket, Codeberg), starts `git clone --depth 1` in background. PreToolUse hook checks cache and suggests local path.
 
 **Bash (gh api / gh repo view)** — Same pattern. PostToolUse detects `gh api repos/...` or `gh repo view owner/repo` commands and triggers background clone. PreToolUse surfaces local cache path if available.
 
