@@ -31,10 +31,10 @@ All hooks are non-blocking. They never prevent tool execution — just provide c
 ```
 WebFetch gitlab.com/owner/repo/-/blob/main/file.py
     ↓
-PostToolUse hook → background: git clone --depth 1 → /var/tmp/claude/gh-repo-cache/
+PostToolUse hook → background: git clone --depth 1 → /var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir/
     ↓
 Next access:
-PreToolUse hook → "repo cached at /var/tmp/claude/gh-repo-cache/2026-04-15/gitlab__owner__repo/"
+PreToolUse hook → "repo cached at /var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir/2026-04-15/gitlab__owner__repo/"
     ↓
 Claude uses Read/Grep/Glob on local clone instead of HTTP
 ```
@@ -59,7 +59,7 @@ gh-cache.sh owner/repo --branch develop
 gh-cache.sh --evict owner/repo
 ```
 
-Cache location: `/var/tmp/claude/gh-repo-cache/YYYY-MM-DD/<host>__<owner>__<repo>/`
+Cache location: `/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir/YYYY-MM-DD/<host>__<owner>__<repo>/`
 
 Repos not accessed for 30+ days are pruned automatically.
 
