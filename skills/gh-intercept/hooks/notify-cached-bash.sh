@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PreToolUse hook for Bash: if a gh/curl/wget/git-clone command targets a cached repo,
-# surface the local path. Does NOT block — command proceeds normally.
+# BLOCK the command and direct Claude to use local Read/Grep instead.
 # Supports: gh api, gh repo view, gh release/run download -R, curl, wget, git clone
 set -euo pipefail
 
@@ -61,15 +61,15 @@ REPO_DIR="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$SLUG" 2>/
 
 if [[ -n "$FILE_PATH" && -f "${REPO_DIR}/${FILE_PATH}" ]]; then
     LOCAL_PATH="${REPO_DIR}/${FILE_PATH}"
-    NOTE="[gh-intercept] ${HOST}/${OWNER}/${REPO} is cached locally. File available at: ${LOCAL_PATH} — use Read instead of curl/wget/gh."
+    REASON="[gh-intercept] BLOCKED: ${HOST}/${OWNER}/${REPO} is cached locally. Use Read tool on: ${LOCAL_PATH}"
 else
-    NOTE="[gh-intercept] ${HOST}/${OWNER}/${REPO} is cached locally at: ${REPO_DIR} — use Grep/Read/Glob on local clone instead of curl/wget/gh."
+    REASON="[gh-intercept] BLOCKED: ${HOST}/${OWNER}/${REPO} is cached locally at: ${REPO_DIR} — use Read/Grep/Glob on local clone instead of curl/wget/gh."
 fi
 
-jq -n --arg note "$NOTE" '{
+jq -n --arg reason "$REASON" '{
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
-    "permissionDecision": "allow",
-    "permissionDecisionReason": $note
+    "permissionDecision": "deny",
+    "permissionDecisionReason": $reason
   }
 }'

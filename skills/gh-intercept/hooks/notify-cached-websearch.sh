@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PreToolUse hook: if a WebSearch query references a cached GitHub/GitLab/etc repo,
-# surface the local path. Does NOT block — search proceeds normally.
+# BLOCK the search and direct Claude to use local Read/Grep instead.
 set -euo pipefail
 
 GH_INTERCEPT_CACHE_DIR="${GH_INTERCEPT_CACHE_DIR:-/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir}"
@@ -31,12 +31,12 @@ REPO_DIR="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$SLUG" 2>/
 
 [[ -z "$REPO_DIR" || -f "${REPO_DIR}.cloning" ]] && exit 0
 
-NOTE="[gh-intercept] ${HOST}/${OWNER}/${REPO} is cached locally at: ${REPO_DIR} — use Grep/Read/Glob on local clone instead of WebSearch."
+REASON="[gh-intercept] BLOCKED: ${HOST}/${OWNER}/${REPO} is cached locally at: ${REPO_DIR} — use Read/Grep/Glob on local clone instead of WebSearch."
 
-jq -n --arg note "$NOTE" '{
+jq -n --arg reason "$REASON" '{
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
-    "permissionDecision": "allow",
-    "permissionDecisionReason": $note
+    "permissionDecision": "deny",
+    "permissionDecisionReason": $reason
   }
 }'

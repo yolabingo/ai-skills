@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PreToolUse hook: if a WebFetch targets a supported Git host URL that is already
-# cached locally, surface the local path as a note. Does NOT block.
+# cached locally, BLOCK the fetch and direct Claude to use local Read/Grep instead.
 # Supports: github.com, gitlab.com, bitbucket.org, codeberg.org
 set -euo pipefail
 
@@ -42,15 +42,15 @@ REPO_DIR="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$SLUG" 2>/
 
 if [[ -n "$FILE_PATH" && -f "${REPO_DIR}/${FILE_PATH}" ]]; then
     LOCAL_PATH="${REPO_DIR}/${FILE_PATH}"
-    NOTE="[gh-intercept] ${HOST}/${OWNER}/${REPO} is cached locally. File available at: ${LOCAL_PATH} — consider using Read instead of WebFetch."
+    REASON="[gh-intercept] BLOCKED: ${HOST}/${OWNER}/${REPO} is cached locally. Use Read tool on: ${LOCAL_PATH}"
 else
-    NOTE="[gh-intercept] ${HOST}/${OWNER}/${REPO} is cached locally at: ${REPO_DIR} — consider using Grep/Read instead of WebFetch."
+    REASON="[gh-intercept] BLOCKED: ${HOST}/${OWNER}/${REPO} is cached locally at: ${REPO_DIR} — use Read/Grep/Glob on local clone instead of WebFetch."
 fi
 
-jq -n --arg note "$NOTE" '{
+jq -n --arg reason "$REASON" '{
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
-    "permissionDecision": "allow",
-    "permissionDecisionReason": $note
+    "permissionDecision": "deny",
+    "permissionDecisionReason": $reason
   }
 }'

@@ -124,7 +124,17 @@ do_clone() {
     mkdir -p "$TODAY_DIR"
     touch "$sentinel" 2>/dev/null || true
 
-    if git clone "${clone_args[@]}" --quiet "$clone_url" "$target" 2>"${GH_INTERCEPT_CACHE_DIR}/gh-clone-err.log"; then
+    local ok=false
+    if command -v git &>/dev/null; then
+        git clone "${clone_args[@]}" --quiet "$clone_url" "$target" 2>"${GH_INTERCEPT_CACHE_DIR}/gh-clone-err.log" && ok=true
+    elif command -v gh &>/dev/null; then
+        gh repo clone "${HOST}/${OWNER}/${REPO}" "$target" -- "${clone_args[@]}" --quiet 2>"${GH_INTERCEPT_CACHE_DIR}/gh-clone-err.log" && ok=true
+    else
+        rm -f "$sentinel"
+        die "Neither git nor gh found in PATH"
+    fi
+
+    if $ok; then
         rm -f "$sentinel"
         echo "[gh-cache] Cloned: ${clone_url} → ${target}" >&2
     else
