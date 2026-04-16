@@ -120,6 +120,24 @@ empty "unrelated command — no note" \
 empty "empty command — no note" \
     "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":""}}')"
 
+# ── notify-cached-browser.sh ──────────────────────────────────────────────────
+echo ""
+echo "=== notify-cached-browser.sh ==="
+
+ok "navigate github.com — cached repo" \
+    "$(run_hook notify-cached-browser.sh '{"tool_input":{"url":"https://github.com/kapicorp/kapitan"}}')" \
+    "REDIRECT"
+
+ok "navigate github.com/blob — cached file" \
+    "$(run_hook notify-cached-browser.sh '{"tool_input":{"url":"https://github.com/kapicorp/kapitan/blob/main/kapitan/inputs/jsonnet.py"}}')" \
+    "kapitan/inputs/jsonnet.py"
+
+empty "navigate uncached repo — no note" \
+    "$(run_hook notify-cached-browser.sh '{"tool_input":{"url":"https://github.com/other/notcached"}}')"
+
+empty "navigate non-github — no note" \
+    "$(run_hook notify-cached-browser.sh '{"tool_input":{"url":"https://google.com"}}')"
+
 # ── notify-cached-websearch.sh ────────────────────────────────────────────────
 echo ""
 echo "=== notify-cached-websearch.sh ==="

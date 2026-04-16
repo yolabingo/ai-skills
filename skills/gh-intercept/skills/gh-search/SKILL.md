@@ -7,6 +7,16 @@ description: Inspect and search remote Git repositories locally using a shallow-
 
 Inspect and search remote Git repos locally. Supports GitHub, GitLab, Bitbucket, and Codeberg. Repos are automatically shallow-cloned in the background whenever a supported URL is fetched or a `gh api`/`gh repo view` command targets a repo. This skill handles explicit searches, file inspection, and cache management.
 
+## IMPORTANT: Do not use remote access for cached repos
+
+When a tool is denied because a repo is cached locally, DO NOT:
+- Navigate to the repo in a browser (Chrome tools)
+- Use alternative URLs or API endpoints
+- Use WebFetch with a different URL format
+- Use curl, wget, or any other remote access method
+
+Instead, use Read/Grep/Glob on the local path provided in the deny message. The local clone has the full repo contents.
+
 ## Always check local cache first
 
 Before using WebFetch, `gh api`, or `gh repo view` to inspect a remote repo, check if it's cached:

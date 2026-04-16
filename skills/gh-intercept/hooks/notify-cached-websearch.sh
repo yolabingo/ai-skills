@@ -34,7 +34,7 @@ REPO_DIR="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$SLUG" 2>/
 
 [[ -z "$REPO_DIR" || -f "${REPO_DIR}.cloning" ]] && exit 0
 
-REASON="[gh-intercept] BLOCKED: ${HOST}/${OWNER}/${REPO} is cached locally at: ${REPO_DIR} — use Read/Grep/Glob on local clone instead of WebSearch."
+REASON="[gh-intercept] REDIRECT: ${HOST}/${OWNER}/${REPO} is cloned locally at: ${REPO_DIR} — Use Read/Grep/Glob on the local clone. Do NOT use browser, WebSearch, or any other remote method to access this repo."
 
 jq -n --arg reason "$REASON" '{
   "hookSpecificOutput": {
