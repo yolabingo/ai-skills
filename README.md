@@ -11,7 +11,7 @@ A public collection of reusable AI skills distributed as a Claude Code plugin ma
 Add the marketplace:
 
 ```bash
-claude plugin marketplace add toddj/ai-skills
+claude plugin marketplace add yolabingo/ai-skills
 ```
 
 Install a skill:
