@@ -3,7 +3,7 @@
 # surface the local path. Does NOT block — command proceeds normally.
 set -euo pipefail
 
-CACHE_BASE="${CACHE_BASE:-/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir}"
+GH_INTERCEPT_CACHE_DIR="${GH_INTERCEPT_CACHE_DIR:-/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir}"
 
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
@@ -31,7 +31,7 @@ fi
 [[ -z "$OWNER" || -z "$REPO" ]] && exit 0
 
 SLUG="github__${OWNER}__${REPO}"
-REPO_DIR="$(find "$CACHE_BASE" -maxdepth 2 -type d -name "$SLUG" 2>/dev/null \
+REPO_DIR="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$SLUG" 2>/dev/null \
     | sort -r | head -1)"
 
 # Only surface note if clone is complete

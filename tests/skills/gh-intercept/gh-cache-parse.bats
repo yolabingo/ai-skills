@@ -9,6 +9,12 @@ setup() {
     GH_CACHE_SOURCED=1 source "$GH_CACHE"
 }
 
+# ── GH_INTERCEPT_CACHE_DIR ──────────────────────────────────────────────────────────────
+
+@test "GH_INTERCEPT_CACHE_DIR: lives under /var/tmp and not /tmp" {
+    [[ "$GH_INTERCEPT_CACHE_DIR" == /var/tmp/* ]]
+}
+
 # ── parse_repo_ref: GitHub ───────────────────────────────────────────────────
 
 @test "parse: github.com/owner/repo" {

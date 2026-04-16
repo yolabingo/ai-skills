@@ -8,8 +8,8 @@ HOOKS_DIR="${SCRIPT_DIR}/../../../skills/gh-intercept/hooks"
 
 setup() {
     TEST_CACHE="$(mktemp -d)"
-    # Patch CACHE_BASE in hook scripts via env (hooks read it directly)
-    export CACHE_BASE="$TEST_CACHE"
+    # Patch GH_INTERCEPT_CACHE_DIR in hook scripts via env (hooks read it directly)
+    export GH_INTERCEPT_CACHE_DIR="$TEST_CACHE"
 }
 
 teardown() {
@@ -40,20 +40,20 @@ bash_input() {
 
 @test "notify-cached: surfaces note when github repo cached" {
     mkdir -p "${TEST_CACHE}/2026-04-15/github__dotcms__core"
-    result="$(webfetch_input "https://github.com/dotcms/core" | CACHE_BASE="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
+    result="$(webfetch_input "https://github.com/dotcms/core" | GH_INTERCEPT_CACHE_DIR="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
     echo "$result" | jq -e '.hookSpecificOutput.permissionDecision == "allow"'
     echo "$result" | jq -e '.hookSpecificOutput.permissionDecisionReason | contains("cached locally")'
 }
 
 @test "notify-cached: surfaces note for gitlab URL" {
     mkdir -p "${TEST_CACHE}/2026-04-15/gitlab__org__project"
-    result="$(webfetch_input "https://gitlab.com/org/project" | CACHE_BASE="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
+    result="$(webfetch_input "https://gitlab.com/org/project" | GH_INTERCEPT_CACHE_DIR="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
     echo "$result" | jq -e '.hookSpecificOutput.permissionDecisionReason | contains("gitlab.com")'
 }
 
 @test "notify-cached: surfaces note for bitbucket URL" {
     mkdir -p "${TEST_CACHE}/2026-04-15/bitbucket__team__lib"
-    result="$(webfetch_input "https://bitbucket.org/team/lib" | CACHE_BASE="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
+    result="$(webfetch_input "https://bitbucket.org/team/lib" | GH_INTERCEPT_CACHE_DIR="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
     echo "$result" | jq -e '.hookSpecificOutput.permissionDecisionReason | contains("bitbucket.org")'
 }
 
@@ -61,14 +61,14 @@ bash_input() {
     mkdir -p "${TEST_CACHE}/2026-04-15/github__owner__repo"
     mkdir -p "${TEST_CACHE}/2026-04-15/github__owner__repo/src"
     echo "content" > "${TEST_CACHE}/2026-04-15/github__owner__repo/src/app.py"
-    result="$(webfetch_input "https://github.com/owner/repo/blob/main/src/app.py" | CACHE_BASE="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
+    result="$(webfetch_input "https://github.com/owner/repo/blob/main/src/app.py" | GH_INTERCEPT_CACHE_DIR="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
     echo "$result" | jq -e '.hookSpecificOutput.permissionDecisionReason | contains("src/app.py")'
 }
 
 @test "notify-cached: skips repo with .cloning sentinel" {
     mkdir -p "${TEST_CACHE}/2026-04-15/github__owner__repo"
     touch "${TEST_CACHE}/2026-04-15/github__owner__repo.cloning"
-    result="$(webfetch_input "https://github.com/owner/repo" | CACHE_BASE="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
+    result="$(webfetch_input "https://github.com/owner/repo" | GH_INTERCEPT_CACHE_DIR="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached.sh")"
     [[ -z "$result" ]]
 }
 
@@ -106,13 +106,13 @@ bash_input() {
 
 @test "notify-cached-bash: surfaces note for gh api repos/owner/repo" {
     mkdir -p "${TEST_CACHE}/2026-04-15/github__dotcms__core"
-    result="$(bash_input "gh api repos/dotcms/core/contents/README.md" | CACHE_BASE="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached-bash.sh")"
+    result="$(bash_input "gh api repos/dotcms/core/contents/README.md" | GH_INTERCEPT_CACHE_DIR="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached-bash.sh")"
     echo "$result" | jq -e '.hookSpecificOutput.permissionDecision == "allow"'
     echo "$result" | jq -e '.hookSpecificOutput.permissionDecisionReason | contains("cached locally")'
 }
 
 @test "notify-cached-bash: surfaces note for gh repo view" {
     mkdir -p "${TEST_CACHE}/2026-04-15/github__dotcms__core"
-    result="$(bash_input "gh repo view dotcms/core" | CACHE_BASE="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached-bash.sh")"
+    result="$(bash_input "gh repo view dotcms/core" | GH_INTERCEPT_CACHE_DIR="$TEST_CACHE" bash "$HOOKS_DIR/notify-cached-bash.sh")"
     echo "$result" | jq -e '.hookSpecificOutput.permissionDecisionReason | contains("cached locally")'
 }

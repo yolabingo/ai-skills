@@ -13,9 +13,9 @@
 # Stderr: status messages only.
 set -euo pipefail
 
-CACHE_BASE="/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir"
+GH_INTERCEPT_CACHE_DIR="/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir"
 TODAY="$(date +%Y-%m-%d)"
-TODAY_DIR="${CACHE_BASE}/${TODAY}"
+TODAY_DIR="${GH_INTERCEPT_CACHE_DIR}/${TODAY}"
 
 # Configurable via environment variables
 CLAUDE_PLUGIN_RETENTION_DAYS="${CLAUDE_PLUGIN_RETENTION_DAYS:-30}"
@@ -91,7 +91,7 @@ make_clone_url() {
 
 find_cached() {
     local slug="$1" found
-    found="$(find "$CACHE_BASE" -maxdepth 2 -type d -name "$slug" 2>/dev/null \
+    found="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$slug" 2>/dev/null \
         | sort -r | head -1)" || true
     if [[ -n "$found" && ! -f "${found}.cloning" ]]; then
         echo "$found"
@@ -100,7 +100,7 @@ find_cached() {
 
 is_cloning() {
     local slug="$1"
-    find "$CACHE_BASE" -maxdepth 2 -name "${slug}.cloning" -type f 2>/dev/null \
+    find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -name "${slug}.cloning" -type f 2>/dev/null \
         | head -1 || true
 }
 
@@ -112,7 +112,7 @@ prune_old() {
             echo "[gh-cache] Pruning: $dir" >&2
             rm -rf "$dir"
         fi
-    done < <(find "$CACHE_BASE" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null)
+    done < <(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null)
 }
 
 do_clone() {
@@ -124,7 +124,7 @@ do_clone() {
     mkdir -p "$TODAY_DIR"
     touch "$sentinel" 2>/dev/null || true
 
-    if git clone "${clone_args[@]}" --quiet "$clone_url" "$target" 2>"${CACHE_BASE}/gh-clone-err.log"; then
+    if git clone "${clone_args[@]}" --quiet "$clone_url" "$target" 2>"${GH_INTERCEPT_CACHE_DIR}/gh-clone-err.log"; then
         rm -f "$sentinel"
         echo "[gh-cache] Cloned: ${clone_url} → ${target}" >&2
     else
@@ -137,8 +137,8 @@ do_clone() {
 # ── subcommands ───────────────────────────────────────────────────────────────
 
 cmd_list() {
-    [[ ! -d "$CACHE_BASE" ]] && echo "(cache empty)" && return
-    echo "Cache: $CACHE_BASE"; echo ""
+    [[ ! -d "$GH_INTERCEPT_CACHE_DIR" ]] && echo "(cache empty)" && return
+    echo "Cache: $GH_INTERCEPT_CACHE_DIR"; echo ""
     while IFS= read -r -d '' date_dir; do
         local repos=()
         while IFS= read -r -d '' repo_dir; do
@@ -148,7 +148,7 @@ cmd_list() {
             repos+=("$label")
         done < <(find "$date_dir" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null)
         [[ ${#repos[@]} -gt 0 ]] && echo "$(basename "$date_dir"):" && printf '  %s\n' "${repos[@]}"
-    done < <(find "$CACHE_BASE" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null | sort -rz)
+    done < <(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null | sort -rz)
 }
 
 cmd_evict() {
@@ -156,7 +156,7 @@ cmd_evict() {
     local slug
     slug="$(make_slug "$HOST" "$OWNER" "$REPO")"
     local found
-    found="$(find "$CACHE_BASE" -maxdepth 2 -type d -name "$slug" 2>/dev/null | head -1)"
+    found="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$slug" 2>/dev/null | head -1)"
     if [[ -n "$found" ]]; then
         rm -rf "$found"; rmdir "$(dirname "$found")" 2>/dev/null || true
         echo "Evicted: $found" >&2
@@ -187,7 +187,7 @@ case "${1:-}" in
         [[ -n "$BRANCH" ]] && CLONE_ARGS+=(--branch "$BRANCH")
         mkdir -p "$TODAY_DIR"
         # Launch detached subprocess
-        (do_clone "$SLUG" "$CLONE_URL" "${CLONE_ARGS[@]}" </dev/null &>"${CACHE_BASE}/gh-clone-${SLUG}.log") &
+        (do_clone "$SLUG" "$CLONE_URL" "${CLONE_ARGS[@]}" </dev/null &>"${GH_INTERCEPT_CACHE_DIR}/gh-clone-${SLUG}.log") &
         disown
         exit 0 ;;
     "")

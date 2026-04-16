@@ -4,7 +4,7 @@
 # Supports: github.com, gitlab.com, bitbucket.org, codeberg.org
 set -euo pipefail
 
-CACHE_BASE="${CACHE_BASE:-/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir}"
+GH_INTERCEPT_CACHE_DIR="${GH_INTERCEPT_CACHE_DIR:-/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir}"
 SUPPORTED_HOSTS="github\.com|gitlab\.com|bitbucket\.org|codeberg\.org"
 
 INPUT=$(cat)
@@ -34,7 +34,7 @@ fi
 
 SHORT_HOST="${HOST%%.*}"
 SLUG="${SHORT_HOST}__${OWNER}__${REPO}"
-REPO_DIR="$(find "$CACHE_BASE" -maxdepth 2 -type d -name "$SLUG" 2>/dev/null \
+REPO_DIR="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$SLUG" 2>/dev/null \
     | sort -r | head -1)"
 
 # Only surface a note if clone is complete
