@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# PostToolUse hook for Bash: when a gh api/repo command targets a GitHub repo,
+# PostToolUse hook for Bash: when a gh api/repo command targets a repo,
 # kick off a background clone. Does NOT block or modify the command.
 set -euo pipefail
 
