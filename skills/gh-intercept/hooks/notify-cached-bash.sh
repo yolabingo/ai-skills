@@ -3,7 +3,7 @@
 # surface the local path. Does NOT block — command proceeds normally.
 set -euo pipefail
 
-CACHE_BASE="${CACHE_BASE:-/var/tmp/claude/gh-repo-cache}"
+CACHE_BASE="${CACHE_BASE:-/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir}"
 
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)

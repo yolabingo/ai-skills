@@ -13,7 +13,7 @@
 # Stderr: status messages only.
 set -euo pipefail
 
-CACHE_BASE="/var/tmp/claude/gh-repo-cache"
+CACHE_BASE="/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir"
 TODAY="$(date +%Y-%m-%d)"
 TODAY_DIR="${CACHE_BASE}/${TODAY}"
 
@@ -124,7 +124,7 @@ do_clone() {
     mkdir -p "$TODAY_DIR"
     touch "$sentinel" 2>/dev/null || true
 
-    if git clone "${clone_args[@]}" --quiet "$clone_url" "$target" 2>/tmp/gh-clone-err; then
+    if git clone "${clone_args[@]}" --quiet "$clone_url" "$target" 2>"${CACHE_BASE}/gh-clone-err.log"; then
         rm -f "$sentinel"
         echo "[gh-cache] Cloned: ${clone_url} → ${target}" >&2
     else
@@ -187,7 +187,7 @@ case "${1:-}" in
         [[ -n "$BRANCH" ]] && CLONE_ARGS+=(--branch "$BRANCH")
         mkdir -p "$TODAY_DIR"
         # Launch detached subprocess
-        (do_clone "$SLUG" "$CLONE_URL" "${CLONE_ARGS[@]}" </dev/null &>/tmp/gh-clone-${SLUG}.log) &
+        (do_clone "$SLUG" "$CLONE_URL" "${CLONE_ARGS[@]}" </dev/null &>"${CACHE_BASE}/gh-clone-${SLUG}.log") &
         disown
         exit 0 ;;
     "")

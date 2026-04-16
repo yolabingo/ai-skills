@@ -1,6 +1,6 @@
 ---
 name: gh-search
-description: Inspect and search remote Git repositories locally using a shallow-cloned cache. Supports GitHub, GitLab, Bitbucket, and Codeberg. Before using gh api, gh repo view, or WebFetch to read remote files, check for a local clone at /var/tmp/claude/gh-repo-cache/ and use Grep/Read/Glob tools on it instead.
+description: Inspect and search remote Git repositories locally using a shallow-cloned cache. Supports GitHub, GitLab, Bitbucket, and Codeberg. Before using gh api, gh repo view, or WebFetch to read remote files, check for a local clone at /var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir/ and use Grep/Read/Glob tools on it instead.
 ---
 
 # gh-search
@@ -57,13 +57,13 @@ Benefits over `gh api`:
 ## Search a repo locally
 
 ```bash
-rg "pattern" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/github__owner__repo/
+rg "pattern" /var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir/YYYY-MM-DD/github__owner__repo/
 
 # File-only list
-rg -l "pattern" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/github__owner__repo/
+rg -l "pattern" /var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir/YYYY-MM-DD/github__owner__repo/
 
 # Type filter
-rg --type java "ClassName" /var/tmp/claude/gh-repo-cache/YYYY-MM-DD/gitlab__owner__repo/
+rg --type java "ClassName" /var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir/YYYY-MM-DD/gitlab__owner__repo/
 ```
 
 ## Cache management
@@ -81,7 +81,7 @@ Repos not accessed for more than one month are pruned automatically after each s
 ## Cache layout
 
 ```
-/var/tmp/claude/gh-repo-cache/
+/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir/
   2026-04-15/          <- last-used date (moved here on access)
     github__dotcms__core/
     gitlab__owner__repo/

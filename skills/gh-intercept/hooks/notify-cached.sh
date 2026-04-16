@@ -4,7 +4,7 @@
 # Supports: github.com, gitlab.com, bitbucket.org, codeberg.org
 set -euo pipefail
 
-CACHE_BASE="${CACHE_BASE:-/var/tmp/claude/gh-repo-cache}"
+CACHE_BASE="${CACHE_BASE:-/var/tmp/yolabingo-ai-skills-gh-intercept-repo-dir}"
 SUPPORTED_HOSTS="github\.com|gitlab\.com|bitbucket\.org|codeberg\.org"
 
 INPUT=$(cat)
