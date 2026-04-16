@@ -11,13 +11,21 @@ claude plugin install gh-intercept
 
 ## What it does
 
-When you fetch a URL from any supported Git host (or run `gh api`/`gh repo view`), gh-intercept:
+When you fetch a URL from any supported Git host, gh-intercept:
 
 1. **PostToolUse hooks** kick off a background `git clone --depth 1` of the repo
 2. **PreToolUse hooks** check if the repo is already cached and suggest using local files instead
 3. **gh-cache.sh** manages the cache — cloning, listing, evicting, and auto-pruning repos older than 1 month
 
 All hooks are non-blocking. They never prevent tool execution — just provide context and trigger side effects.
+
+### Intercepted tool patterns
+
+| Tool | Patterns |
+|------|----------|
+| `WebFetch` | Any git-host URL |
+| `Bash` | `curl`, `wget`, `git clone`, `gh api repos/…`, `gh repo view`, `gh release download -R`, `gh run download -R` |
+| `WebSearch` | Queries containing `host/owner/repo` (pre-use only) |
 
 ## Supported platforms
 
@@ -89,10 +97,11 @@ gh-intercept/
     marketplace.json      # Marketplace listing
   hooks/
     hooks.json            # Hook definitions (Pre/PostToolUse)
-    notify-cached.sh      # PreToolUse: surface local path for WebFetch
-    notify-cached-bash.sh # PreToolUse: surface local path for gh api/repo
-    clone-on-fetch.sh     # PostToolUse: background clone on WebFetch
-    clone-on-gh-api.sh    # PostToolUse: background clone on gh api/repo
+    notify-cached.sh           # PreToolUse: surface local path for WebFetch
+    notify-cached-bash.sh      # PreToolUse: surface local path for gh/curl/wget/git-clone
+    notify-cached-websearch.sh # PreToolUse: surface local path for WebSearch
+    clone-on-fetch.sh          # PostToolUse: background clone on WebFetch
+    clone-on-gh-api.sh         # PostToolUse: background clone on gh/curl/wget/git-clone
   scripts/
     gh-cache.sh           # Core cache manager (multi-platform)
   skills/

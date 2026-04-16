@@ -22,6 +22,17 @@
             "statusMessage": "Checking GitHub cache..."
           }
         ]
+      },
+      {
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/notify-cached-websearch.sh\"",
+            "timeout": 5,
+            "statusMessage": "Checking GitHub cache..."
+          }
+        ]
       }
     ],
     "PostToolUse": [
