@@ -79,9 +79,9 @@ if [[ -n "$SEARCH_PATTERN" ]]; then
     REASON="[gh-intercept] BLOCKED: ${HOST}/${OWNER}/${REPO} is cached locally. Use Grep tool to search for \"${SEARCH_PATTERN}\" in: ${REPO_DIR}"
 elif [[ -n "$FILE_PATH" && -f "${REPO_DIR}/${FILE_PATH}" ]]; then
     LOCAL_PATH="${REPO_DIR}/${FILE_PATH}"
-    REASON="[gh-intercept] REDIRECT: ${HOST}/${OWNER}/${REPO} is cloned locally. Read this file instead: ${LOCAL_PATH} — Do NOT use browser, WebFetch, curl, or any other remote method to access this repo."
+    REASON="[gh-intercept] REDIRECT: ${HOST}/${OWNER}/${REPO} is cloned locally. Read this file instead: ${LOCAL_PATH} — Do NOT use browser, WebFetch, curl, or any other remote method to access files in this repo. Using gh to query gh api about repo metadata is fine."
 else
-    REASON="[gh-intercept] REDIRECT: ${HOST}/${OWNER}/${REPO} is cloned locally at: ${REPO_DIR} — Use Read/Grep/Glob on the local clone. Do NOT use browser, WebFetch, curl, or any other remote method to access this repo."
+    REASON="[gh-intercept] REDIRECT: ${HOST}/${OWNER}/${REPO} is cloned locally at: ${REPO_DIR} — Use Read/Grep/Glob on the local clone. Do NOT use browser, WebFetch, curl, or any other remote method to access files in this repo. Using gh to query gh api about repo metadata is fine."
 fi
 
 jq -n --arg reason "$REASON" '{
