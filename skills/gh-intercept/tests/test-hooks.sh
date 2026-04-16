@@ -92,6 +92,20 @@ ok "gh run download -R — cached repo" \
     "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"gh run download 12345 -R kapicorp/kapitan"}}')" \
     "kapicorp/kapitan"
 
+ok "gh search code --repo — cached repo with pattern" \
+    "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"gh search code \"import subprocess\" --repo kapicorp/kapitan"}}')" \
+    "import subprocess"
+
+ok "gh search code -R — cached repo" \
+    "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"gh search code \"class Jsonnet\" -R kapicorp/kapitan --json path"}}')" \
+    "class Jsonnet"
+
+empty "gh search code uncached repo — no note" \
+    "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"gh search code \"pattern\" --repo other/notcached"}}')"
+
+empty "gh search issues --repo — not blocked (only code blocked)" \
+    "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"gh search issues \"bug\" --repo kapicorp/kapitan"}}')"
+
 ok "curl gitlab.com — cached repo" \
     "$(run_hook notify-cached-bash.sh '{"tool_input":{"command":"curl https://gitlab.com/myorg/myrepo/some/path"}}')" \
     "myorg/myrepo"
@@ -170,6 +184,12 @@ exits0 "git clone" clone-on-gh-api.sh \
 
 exits0 "gh release download -R" clone-on-gh-api.sh \
     '{"tool_input":{"command":"gh release download -R kapicorp/kapitan"}}'
+
+exits0 "gh search code --repo" clone-on-gh-api.sh \
+    '{"tool_input":{"command":"gh search code \"import subprocess\" --repo kapicorp/kapitan"}}'
+
+exits0 "gh search issues --repo" clone-on-gh-api.sh \
+    '{"tool_input":{"command":"gh search issues \"bug\" --repo kapicorp/kapitan"}}'
 
 exits0 "unrelated command" clone-on-gh-api.sh \
     '{"tool_input":{"command":"ls -la"}}'

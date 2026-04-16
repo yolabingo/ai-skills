@@ -12,7 +12,7 @@ COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
 
 [[ -z "$COMMAND" ]] && exit 0
 
-OWNER="" REPO="" FILE_PATH="" HOST="" URL=""
+OWNER="" REPO="" FILE_PATH="" HOST="" URL="" SEARCH_PATTERN=""
 
 if [[ "$COMMAND" =~ gh[[:space:]]+api[[:space:]]+repos/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)/contents/(.+) ]]; then
     HOST="github.com"
@@ -24,6 +24,16 @@ elif [[ "$COMMAND" =~ gh[[:space:]]+api[[:space:]]+repos/([A-Za-z0-9_.-]+)/([A-Z
 elif [[ "$COMMAND" =~ gh[[:space:]]+repo[[:space:]]+view[[:space:]]+([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
     HOST="github.com"
     OWNER="${BASH_REMATCH[1]}"; REPO="${BASH_REMATCH[2]}"
+elif [[ "$COMMAND" =~ gh[[:space:]]+search[[:space:]]+code[[:space:]] ]]; then
+    HOST="github.com"
+    if [[ "$COMMAND" =~ (--repo|-R)[[:space:]]+([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
+        OWNER="${BASH_REMATCH[2]}"; REPO="${BASH_REMATCH[3]}"
+    fi
+    if [[ "$COMMAND" =~ gh[[:space:]]+search[[:space:]]+code[[:space:]]+[\"\']([^\"\']+)[\"\'] ]]; then
+        SEARCH_PATTERN="${BASH_REMATCH[1]}"
+    elif [[ "$COMMAND" =~ gh[[:space:]]+search[[:space:]]+code[[:space:]]+([^[:space:]-][^[:space:]]*) ]]; then
+        SEARCH_PATTERN="${BASH_REMATCH[1]}"
+    fi
 elif [[ "$COMMAND" =~ gh[[:space:]]+(release|run)[[:space:]]+download.*-R[[:space:]]+([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
     HOST="github.com"
     OWNER="${BASH_REMATCH[2]}"; REPO="${BASH_REMATCH[3]}"
@@ -65,7 +75,9 @@ REPO_DIR="$(find "$GH_INTERCEPT_CACHE_DIR" -maxdepth 2 -type d -name "$SLUG" 2>/
 
 [[ -z "$REPO_DIR" || -f "${REPO_DIR}.cloning" ]] && exit 0
 
-if [[ -n "$FILE_PATH" && -f "${REPO_DIR}/${FILE_PATH}" ]]; then
+if [[ -n "$SEARCH_PATTERN" ]]; then
+    REASON="[gh-intercept] BLOCKED: ${HOST}/${OWNER}/${REPO} is cached locally. Use Grep tool to search for \"${SEARCH_PATTERN}\" in: ${REPO_DIR}"
+elif [[ -n "$FILE_PATH" && -f "${REPO_DIR}/${FILE_PATH}" ]]; then
     LOCAL_PATH="${REPO_DIR}/${FILE_PATH}"
     REASON="[gh-intercept] REDIRECT: ${HOST}/${OWNER}/${REPO} is cloned locally. Read this file instead: ${LOCAL_PATH} — Do NOT use browser, WebFetch, curl, or any other remote method to access this repo."
 else

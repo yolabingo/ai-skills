@@ -18,6 +18,9 @@ if [[ "$COMMAND" =~ gh[[:space:]]+api[[:space:]]+repos/([A-Za-z0-9_.-]+)/([A-Za-
     CACHE_REF="${BASH_REMATCH[1]}/${BASH_REMATCH[2]}"
 elif [[ "$COMMAND" =~ gh[[:space:]]+repo[[:space:]]+view[[:space:]]+([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
     CACHE_REF="${BASH_REMATCH[1]}/${BASH_REMATCH[2]}"
+elif [[ "$COMMAND" =~ gh[[:space:]]+search[[:space:]]+(code|commits|issues|prs|repos)[[:space:]] ]] \
+  && [[ "$COMMAND" =~ (--repo|-R)[[:space:]]+([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
+    CACHE_REF="${BASH_REMATCH[2]}/${BASH_REMATCH[3]}"
 elif [[ "$COMMAND" =~ gh[[:space:]]+(release|run)[[:space:]]+download.*-R[[:space:]]+([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
     CACHE_REF="${BASH_REMATCH[2]}/${BASH_REMATCH[3]}"
 else
