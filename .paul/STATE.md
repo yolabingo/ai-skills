@@ -5,18 +5,18 @@
 See: .paul/PROJECT.md (updated 2026-04-15)
 
 **Core value:** Developers can discover, install, and use curated AI coding skills across multiple AI assistants from a single source.
-**Current focus:** Phase 2 — First Skills
+**Current focus:** Phase 3 — Cross-Platform Config
 
 ## Current Position
 
 Milestone: v0.1 Initial Release
-Phase: 2 of 4 (First Skills)
+Phase: 3 of 4 (Cross-Platform Config)
 Plan: Not started
 Status: Ready to plan
-Last activity: 2026-04-15 — Phase 1 complete, transitioned to Phase 2
+Last activity: 2026-04-15 — Phase 2 complete, transitioned to Phase 3
 
 Progress:
-- Milestone: [██░░░░░░░░] 25%
+- Milestone: [█████░░░░░] 50%
 
 ## Loop Position
 
@@ -33,18 +33,19 @@ PLAN ──▶ APPLY ──▶ UNIFY
 - Dual distribution: Claude marketplace (primary) + npx CLI (convenience)
 - Cross-platform via `.claude-plugin/` and `.codex-plugin/` config dirs
 - Apache-2.0 license
+- SKILL.md paths use ${CLAUDE_PLUGIN_ROOT} for portability
 
 ### Deferred Issues
-None yet.
+- Marketplace install test (02-02) — requires push to GitHub first
 
 ### Blockers/Concerns
-None yet.
+None.
 
 ## Session Continuity
 
 Last session: 2026-04-15
-Stopped at: Phase 1 complete, ready to plan Phase 2
-Next action: /paul:plan for Phase 2
+Stopped at: Phase 2 complete, ready to plan Phase 3
+Next action: /paul:plan for Phase 3
 Resume file: .paul/ROADMAP.md
 
 ---

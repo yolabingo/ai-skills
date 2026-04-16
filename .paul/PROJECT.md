@@ -30,7 +30,7 @@ Developers can discover, install, and use curated AI coding skills across multip
 None yet.
 
 ### Active (In Progress)
-- [ ] Plugin marketplace integration — structure created, needs skills
+- [ ] Plugin marketplace integration — gh-intercept ported, needs push + install test
 
 ### Planned (Next)
 - First skills (Phase 2)

@@ -1,15 +1,18 @@
 {
-  "name": "ai-skills",
+  "name": "gh-intercept",
+  "description": "Shallow-clone GitHub repos in the background on fetch, serve subsequent searches from local cache.",
   "owner": {
-    "name": "toddj",
-    "url": "https://github.com/toddj"
+    "name": "Todd Jacobsen"
   },
   "plugins": [
     {
       "name": "gh-intercept",
       "description": "Shallow-clone GitHub repos in the background whenever a GitHub URL is fetched, then serve subsequent searches from the local cache.",
       "version": "1.0.0",
-      "source": "./skills/gh-intercept",
+      "author": {
+        "name": "Todd Jacobsen"
+      },
+      "source": "./",
       "category": "development",
       "keywords": ["github", "cache", "search", "clone"]
     }

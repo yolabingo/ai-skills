@@ -8,14 +8,14 @@ Build a public repository of cross-platform AI coding skills, starting with mark
 
 **v0.1 Initial Release** (v0.1.0)
 Status: In progress
-Phases: 1 of 4 complete
+Phases: 2 of 4 complete
 
 ## Phases
 
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
 | 1 | Repository Foundation | 2 | Complete | 2026-04-15 |
-| 2 | First Skills | 2 | Not started | - |
+| 2 | First Skills | 1 | Complete | 2026-04-15 |
 | 3 | Cross-Platform Config | 1 | Not started | - |
 | 4 | Contribution Workflow | 1 | Not started | - |
 
@@ -49,8 +49,8 @@ Phases: 1 of 4 complete
 - Skills follow consistent format and quality bar
 
 **Plans:**
-- [ ] 02-01: Create first 2-3 skills
-- [ ] 02-02: Test marketplace install flow
+- [x] 02-01: Port gh-intercept plugin
+- [ ] 02-02: Test marketplace install flow (deferred — requires push to GitHub)
 
 ### Phase 3: Cross-Platform Config
 

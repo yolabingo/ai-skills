@@ -24,7 +24,7 @@ claude plugin install <skill-name>
 
 | Skill | Description |
 |-------|-------------|
-| *Coming soon* | Skills will be added in upcoming releases |
+| [gh-intercept](skills/gh-intercept) | Shallow-clone GitHub repos in the background on fetch, serve subsequent searches from local cache |
 
 ## Contributing
 

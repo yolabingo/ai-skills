@@ -1,0 +1,52 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/notify-cached.sh\"",
+            "timeout": 5,
+            "statusMessage": "Checking GitHub cache..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/notify-cached-bash.sh\"",
+            "timeout": 5,
+            "statusMessage": "Checking GitHub cache..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/clone-on-fetch.sh\"",
+            "timeout": 5,
+            "statusMessage": "Queuing GitHub repo for local cache..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/clone-on-gh-api.sh\"",
+            "timeout": 5,
+            "statusMessage": "Queuing GitHub repo for local cache..."
+          }
+        ]
+      }
+    ]
+  }
+}
