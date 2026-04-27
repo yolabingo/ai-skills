@@ -5,8 +5,8 @@ Intercept remote Git host file access and serve from a local shallow-clone cache
 ## Install
 
 ```bash
-claude plugin marketplace add yolabingo/ai-skills
-claude plugin install gh-intercept
+claude plugin marketplace add --scope local yolabingo/ai-skills
+claude plugin install --scope local gh-intercept
 ```
 
 ## What it does
